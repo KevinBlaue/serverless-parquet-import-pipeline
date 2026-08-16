@@ -1,0 +1,709 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ImportPipelineStack matches the infrastructure snapshot 1`] = `
+{
+  "Resources": {
+    "InputBucket3BF8630A": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "NotificationConfiguration": {
+          "EventBridgeConfiguration": {
+            "EventBridgeEnabled": true
+          }
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "InputBucketPolicy84EF9809": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "InputBucket3BF8630A"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              },
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "InputBucket3BF8630A",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "InputBucket3BF8630A",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "Items5C12978B": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "DeletionProtectionEnabled": false,
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "PointInTimeRecoverySpecification": {
+          "PointInTimeRecoveryEnabled": false
+        },
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "GlueJobRoleF1B69418": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "glue.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSGlueServiceRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ]
+      }
+    },
+    "GlueJobRoleDefaultPolicy94EFA0CF": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "InputBucket3BF8630A",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "InputBucket3BF8630A",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::cdk-hnb659fds-assets-111111111111-eu-central-1"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::cdk-hnb659fds-assets-111111111111-eu-central-1/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Items5C12978B",
+                    "Arn"
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "GlueJobRoleDefaultPolicy94EFA0CF",
+        "Roles": [
+          {
+            "Ref": "GlueJobRoleF1B69418"
+          }
+        ]
+      }
+    },
+    "ImportItemsJob": {
+      "Type": "AWS::Glue::Job",
+      "Properties": {
+        "Command": {
+          "Name": "glueetl",
+          "PythonVersion": "3",
+          "ScriptLocation": "s3://cdk-hnb659fds-assets-111111111111-eu-central-1/77fe7bf9875949ffcde1320fd69ea98207b03f94f8e39d3e4a6bb3b1c6a1ee8d.py"
+        },
+        "DefaultArguments": {
+          "--enable-metrics": "true",
+          "--enable-observability-metrics": "true",
+          "--job-bookmark-option": "job-bookmark-disable",
+          "--job-language": "python"
+        },
+        "Description": "Imports id, name and description fields from one Parquet object.",
+        "ExecutionClass": "STANDARD",
+        "ExecutionProperty": {
+          "MaxConcurrentRuns": 2
+        },
+        "GlueVersion": "5.0",
+        "MaxRetries": 0,
+        "Name": "dev-importPipeline-import-items",
+        "NumberOfWorkers": 2,
+        "Role": {
+          "Fn::GetAtt": [
+            "GlueJobRoleF1B69418",
+            "Arn"
+          ]
+        },
+        "Tags": {
+          "environment": "dev",
+          "lifecycle": "ephemeral",
+          "managed-by": "aws-cdk",
+          "project": "serverless-parquet-import-pipeline"
+        },
+        "Timeout": 15,
+        "WorkerType": "G.1X"
+      }
+    },
+    "StateMachineLogs3CB16D3C": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 7,
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "ImportStateMachineRole93B6CA73": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ]
+      }
+    },
+    "ImportStateMachineRoleDefaultPolicy7629D72B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "glue:StartJobRun",
+                "glue:GetJobRun",
+                "glue:GetJobRuns",
+                "glue:BatchStopJobRun"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":glue:eu-central-1:111111111111:job/",
+                    {
+                      "Ref": "ImportItemsJob"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+                "xray:GetSamplingRules",
+                "xray:GetSamplingTargets"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ImportStateMachineRoleDefaultPolicy7629D72B",
+        "Roles": [
+          {
+            "Ref": "ImportStateMachineRole93B6CA73"
+          }
+        ]
+      }
+    },
+    "ImportStateMachine0C38DB75": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{\\"StartAt\\":\\"ImportParquet\\",\\"States\\":{\\"ImportParquet\\":{\\"End\\":true,\\"Type\\":\\"Task\\",\\"ResultPath\\":\\"$.importResult\\",\\"Resource\\":\\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::glue:startJobRun.sync\\",\\"Parameters\\":{\\"JobName\\":\\"",
+              {
+                "Ref": "ImportItemsJob"
+              },
+              "\\",\\"Arguments\\":{\\"--SOURCE_BUCKET.$\\":\\"$.detail.bucket.name\\",\\"--SOURCE_KEY.$\\":\\"$.detail.object.key\\",\\"--DYNAMODB_TABLE\\":\\"",
+              {
+                "Ref": "Items5C12978B"
+              },
+              "\\"}}}},\\"TimeoutSeconds\\":1200}"
+            ]
+          ]
+        },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "StateMachineLogs3CB16D3C",
+                    "Arn"
+                  ]
+                }
+              }
+            }
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR"
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "ImportStateMachineRole93B6CA73",
+            "Arn"
+          ]
+        },
+        "StateMachineType": "STANDARD",
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ],
+        "TracingConfiguration": {
+          "Enabled": true
+        }
+      },
+      "DependsOn": [
+        "ImportStateMachineRoleDefaultPolicy7629D72B",
+        "ImportStateMachineRole93B6CA73"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "ImportStateMachineEventsRole6359EE1E": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ]
+      }
+    },
+    "ImportStateMachineEventsRoleDefaultPolicy84ED2871": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "ImportStateMachine0C38DB75"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "ImportStateMachineEventsRoleDefaultPolicy84ED2871",
+        "Roles": [
+          {
+            "Ref": "ImportStateMachineEventsRole6359EE1E"
+          }
+        ]
+      }
+    },
+    "ParquetObjectCreatedD5F2A5ED": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Starts the import state machine for new Parquet objects.",
+        "EventPattern": {
+          "source": [
+            "aws.s3"
+          ],
+          "detail-type": [
+            "Object Created"
+          ],
+          "resources": [
+            {
+              "Fn::GetAtt": [
+                "InputBucket3BF8630A",
+                "Arn"
+              ]
+            }
+          ],
+          "detail": {
+            "bucket": {
+              "name": [
+                {
+                  "Ref": "InputBucket3BF8630A"
+                }
+              ]
+            },
+            "object": {
+              "key": [
+                {
+                  "suffix": ".parquet"
+                }
+              ]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Tags": [
+          {
+            "Key": "environment",
+            "Value": "dev"
+          },
+          {
+            "Key": "lifecycle",
+            "Value": "ephemeral"
+          },
+          {
+            "Key": "managed-by",
+            "Value": "aws-cdk"
+          },
+          {
+            "Key": "project",
+            "Value": "serverless-parquet-import-pipeline"
+          }
+        ],
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "ImportStateMachine0C38DB75"
+            },
+            "Id": "Target0",
+            "InputPath": "$",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "ImportStateMachineEventsRole6359EE1E",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "InputBucketName": {
+      "Value": {
+        "Ref": "InputBucket3BF8630A"
+      }
+    },
+    "ItemsTableName": {
+      "Value": {
+        "Ref": "Items5C12978B"
+      }
+    },
+    "StateMachineArn": {
+      "Value": {
+        "Ref": "ImportStateMachine0C38DB75"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}
+`;

@@ -1,0 +1,4 @@
+deletionProtection: true
+logRetentionDays: 30
+pointInTimeRecovery: true
+removalPolicy: retain

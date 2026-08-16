@@ -1,0 +1,15 @@
+node_modules/
+/cdk.out/
+/cdk/cdk.out/
+coverage/
+.coverage
+**/dist/
+.turbo/
+.env
+.env.*
+*.log
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/

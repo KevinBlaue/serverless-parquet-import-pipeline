@@ -1,0 +1,9 @@
+deletionProtection: false
+glueJobTimeoutMinutes: 15
+glueNumberOfWorkers: 2
+glueVersion: '5.0'
+glueWorkerType: G.1X
+logRetentionDays: 7
+pointInTimeRecovery: false
+removalPolicy: destroy
+stateMachineTimeoutMinutes: 20

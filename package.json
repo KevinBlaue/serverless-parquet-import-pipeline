@@ -1,0 +1,45 @@
+{
+  "name": "serverless-parquet-import-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An event-driven AWS working probe for importing small Parquet datasets into DynamoDB.",
+  "workspaces": [
+    "cdk",
+    "src/glue-jobs/*"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "npm@12.0.2",
+  "scripts": {
+    "build": "turbo run build",
+    "cdk": "npm run cdk --workspace @work-probes/parquet-import-cdk --",
+    "check": "npm run format && npm run lint && npm run build && npm test && npm run test:coverage && npm run synth",
+    "deploy": "turbo run deploy --filter=@work-probes/parquet-import-cdk",
+    "destroy": "turbo run destroy --filter=@work-probes/parquet-import-cdk",
+    "diff": "turbo run diff --filter=@work-probes/parquet-import-cdk",
+    "format": "prettier --check . && turbo run format",
+    "format:write": "prettier --write . && turbo run format:write",
+    "lint": "eslint .eslintrc.cjs jest.config.cjs --ext .ts,.cjs --no-error-on-unmatched-pattern && turbo run lint",
+    "synth": "turbo run synth --filter=@work-probes/parquet-import-cdk",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "test:update": "turbo run test:update"
+  },
+  "devDependencies": {
+    "@types/jest": "30.0.0",
+    "@types/node": "24.8.1",
+    "@typescript-eslint/eslint-plugin": "8.46.1",
+    "@typescript-eslint/parser": "8.46.1",
+    "eslint": "8.57.1",
+    "eslint-config-prettier": "10.1.8",
+    "jest": "30.2.0",
+    "prettier": "3.6.2",
+    "ts-jest": "29.4.5",
+    "turbo": "2.10.10",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "joi": "17.13.4"
+  }
+}

@@ -1,0 +1,5 @@
+defaultRegion: eu-central-1
+projectName: serverless-parquet-import-pipeline
+resourceTags:
+  project: serverless-parquet-import-pipeline
+  managed-by: aws-cdk

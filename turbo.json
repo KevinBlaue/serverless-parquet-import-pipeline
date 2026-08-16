@@ -1,0 +1,93 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "format": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "format:write": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "cache": false
+    },
+    "lint": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "test:coverage": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "test:update": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "cache": false
+    },
+    "synth": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["cdk.out/**"],
+      "cache": false,
+      "passThroughEnv": [
+        "AWS_DEFAULT_REGION",
+        "AWS_PROFILE",
+        "AWS_REGION",
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION"
+      ]
+    },
+    "deploy": {
+      "dependsOn": ["lint", "^lint", "test", "^test", "build", "^build"],
+      "outputs": ["cdk.out/**"],
+      "cache": false,
+      "passThroughEnv": [
+        "AWS_ACCESS_KEY_ID",
+        "AWS_DEFAULT_REGION",
+        "AWS_PROFILE",
+        "AWS_REGION",
+        "AWS_SECRET_ACCESS_KEY",
+        "AWS_SESSION_TOKEN",
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "CI"
+      ]
+    },
+    "destroy": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["cdk.out/**"],
+      "cache": false,
+      "passThroughEnv": [
+        "AWS_ACCESS_KEY_ID",
+        "AWS_DEFAULT_REGION",
+        "AWS_PROFILE",
+        "AWS_REGION",
+        "AWS_SECRET_ACCESS_KEY",
+        "AWS_SESSION_TOKEN",
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION"
+      ]
+    },
+    "diff": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["cdk.out/**"],
+      "cache": false,
+      "passThroughEnv": [
+        "AWS_ACCESS_KEY_ID",
+        "AWS_DEFAULT_REGION",
+        "AWS_PROFILE",
+        "AWS_REGION",
+        "AWS_SECRET_ACCESS_KEY",
+        "AWS_SESSION_TOKEN",
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION"
+      ]
+    }
+  }
+}

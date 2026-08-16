@@ -1,0 +1,15 @@
+{
+  "name": "@work-probes/import-items-glue-job",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "python3 -m compileall -q src",
+    "format": "PYTHONPATH=dist dist/bin/ruff format --check src",
+    "format:write": "PYTHONPATH=dist dist/bin/ruff format src",
+    "install": "python3 -m pip install --disable-pip-version-check --no-compile --upgrade --requirement requirements.txt --target dist",
+    "lint": "PYTHONPATH=dist dist/bin/ruff check src",
+    "test": "PYTHONPATH=dist:src dist/bin/pytest src --quiet",
+    "test:coverage": "PYTHONPATH=dist:src dist/bin/pytest src --quiet --cov=index --cov-report=term-missing --cov-fail-under=80",
+    "test:update": "PYTHONPATH=dist:src dist/bin/pytest src --quiet"
+  }
+}
