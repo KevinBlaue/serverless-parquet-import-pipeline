@@ -1,0 +1,24 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy (opt-in)
+    if: ${{ vars.ENABLE_AWS_DEPLOYMENT == 'true' && vars.AWS_DEPLOY_ROLE_ARN != '' }}
+    permissions:
+      contents: read
+      id-token: write
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      aws_region: ${{ vars.AWS_REGION || 'eu-central-1' }}
+      deploy_role_arn: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
